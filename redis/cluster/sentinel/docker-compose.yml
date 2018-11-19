@@ -1,0 +1,66 @@
+version: '2'
+services:
+    redis-master:
+        image: redis:4.0
+        ports: 
+            - "6380:6379"
+        volumes:
+            - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+            - ./log-master:/tmp/redis
+        #restart: always
+        command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
+    redis-slave1:
+        image: redis:4.0
+        ports: 
+            - "6381:6379"
+        volumes:
+            - ./redis-slave1.conf:/usr/local/etc/redis/redis.conf
+            - ./log-slave1:/tmp/redis
+        #restart: always
+        command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
+        links: 
+            - redis-master
+    redis-slave2:
+        image: redis:4.0
+        ports: 
+            - "6382:6379"
+        volumes:
+            - ./redis-slave2.conf:/usr/local/etc/redis/redis.conf
+            - ./log-slave2:/tmp/redis
+        #restart: always
+        command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
+        links: 
+            - redis-master
+    redis-sentinel1:
+        image: redis:4.0
+        ports: 
+            - "26379:26379"
+        volumes:
+            - ./sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+            - ./log-sentinel1:/tmp/redis
+        #restart: always
+        command: redis-server /usr/local/etc/redis/sentinel.conf --sentinel
+        links: 
+            - redis-master
+    redis-sentinel2:
+        image: redis:4.0
+        ports: 
+            - "26380:26379"
+        volumes:
+            - ./sentinel2.conf:/usr/local/etc/redis/sentinel.conf
+            - ./log-sentinel2:/tmp/redis
+        #restart: always
+        command: redis-server /usr/local/etc/redis/sentinel.conf --sentinel
+        links: 
+            - redis-master
+    redis-sentinel3:
+        image: redis:4.0
+        ports: 
+            - "26381:26379"
+        volumes:
+            - ./sentinel3.conf:/usr/local/etc/redis/sentinel.conf
+            - ./log-sentinel3:/tmp/redis
+        #restart: always
+        command: redis-server /usr/local/etc/redis/sentinel.conf --sentinel
+        links: 
+            - redis-master
