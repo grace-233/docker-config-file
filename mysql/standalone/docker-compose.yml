@@ -1,0 +1,14 @@
+version: '2'
+services:
+    mysql:
+        image: mysql:5.6
+        # 注意：windows下面的docker要配置--innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON,否则挂载数据卷的时候启动报错
+        # https://github.com/boot2docker/boot2docker/issues/1300
+        command: --default-authentication-plugin=mysql_native_password --innodb-flush-method=O_DSYNC --innodb-use-native-aio=0 --log_bin=ON
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 111111
+        volumes:
+            - /e/docker/mysql5.6/datadir:/var/lib/mysql
+        ports:
+            - "3306:3306"
