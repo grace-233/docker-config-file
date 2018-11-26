@@ -2,69 +2,43 @@ version: '2'
 services:
     redis1:
         image: redis:4.0
-        ports: 
-            - "36379:6379"
         volumes:
-            - ./redis.conf:/usr/local/etc/redis/redis.conf
+            - ./redis-36379.conf:/usr/local/etc/redis/redis.conf
             - ./log-redis1:/tmp/redis
-        #restart: always
         command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
-        networks:
-            - redis-cluster-net
+        network_mode: host
     redis2:
         image: redis:4.0
-        ports: 
-            - "36380:6379"
         volumes:
-            - ./redis.conf:/usr/local/etc/redis/redis.conf
+            - ./redis-36380.conf:/usr/local/etc/redis/redis.conf
             - ./log-redis2:/tmp/redis
-        #restart: always
         command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
-        networks:
-            - redis-cluster-net
+        network_mode: host
     redis3:
         image: redis:4.0
-        ports: 
-            - "36381:6379"
         volumes:
-            - ./redis.conf:/usr/local/etc/redis/redis.conf
+            - ./redis-36381.conf:/usr/local/etc/redis/redis.conf
             - ./log-redis3:/tmp/redis
-        #restart: always
         command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
-        networks:
-            - redis-cluster-net
+        network_mode: host
     redis1-slave:
         image: redis:4.0
-        ports: 
-            - "36382:6379"
         volumes:
-            - ./redis.conf:/usr/local/etc/redis/redis.conf
+            - ./redis-36382.conf:/usr/local/etc/redis/redis.conf
             - ./log-redis1-slave:/tmp/redis
-        #restart: always
         command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
-        networks:
-            - redis-cluster-net
+        network_mode: host
     redis2-slave:
         image: redis:4.0
-        ports: 
-            - "36383:6379"
         volumes:
-            - ./redis.conf:/usr/local/etc/redis/redis.conf
+            - ./redis-36383.conf:/usr/local/etc/redis/redis.conf
             - ./log-redis2-slave:/tmp/redis
-        #restart: always
         command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
-        networks:
-            - redis-cluster-net
+        network_mode: host
     redis3-slave:
         image: redis:4.0
-        ports: 
-            - "36384:6379"
         volumes:
-            - ./redis.conf:/usr/local/etc/redis/redis.conf
+            - ./redis-36384.conf:/usr/local/etc/redis/redis.conf
             - ./log-redis3-slave:/tmp/redis
-        #restart: always
         command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
-        networks:
-            - redis-cluster-net
-networks:
-    redis-cluster-net:
+        network_mode: host
